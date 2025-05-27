@@ -1,0 +1,40 @@
+FUNCIONAMIENTO DEL PROGRAMA DE INTERPOLACIÓN DE 3ER GRADO
+Inicio
+
+1. Definir función newton_interp_3rd_degree con entradas: 
+     - x_points (vector de valores x conocidos)
+     - y_points (vector de f(x) conocidos)
+     - x (valor donde se quiere interpolar)
+     - valor_real (valor real de la función para calcular error)
+
+2. Calcular n = número de puntos
+
+3. Inicializar matriz F de tamaño n x n con ceros
+   - F almacenará las diferencias divididas
+4. Asignar primera columna de F: F(:,1) = y_points
+   - Esta columna representa f[x0], f[x1], ...
+
+5. Calcular diferencias divididas:
+   Para j desde 2 hasta n:
+       Para i desde 1 hasta n - j + 1:
+           F(i,j) = (F(i+1,j-1) - F(i,j-1)) / (x_points(i+j-1) - x_points(i))
+       Fin
+   Fin
+   - Esto llena la tabla triangular superior con f[xi, ..., xj]
+
+6. Evaluar el polinomio de Newton:
+   Inicializar y_interp = F(1,1)
+   Para k desde 2 hasta n:
+       Inicializar term = F(1,k)
+       Para m desde 1 hasta k-1:
+           term = term * (x - x_points(m))
+       Fin
+       y_interp = y_interp + term
+   Fin
+
+7. Calcular el error porcentual:
+   error = |(y_interp - valor_real) / valor_real| * 100
+
+8. Retornar y_interp y error
+
+Fin
